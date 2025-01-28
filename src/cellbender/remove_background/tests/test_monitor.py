@@ -17,4 +17,3 @@ def test_get_hardware_usage(cuda):
     """Check and see if restarting from a checkpoint picks up in the same place
     we left off.  Use our model and dataloader.
     """
-

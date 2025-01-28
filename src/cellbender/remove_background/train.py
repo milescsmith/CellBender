@@ -64,7 +64,9 @@ def train_epoch(svi: SVI, train_loader: DataLoader) -> float:
 
     if is_scheduler(svi.optim):
         try:
-            logger.debug(f"Learning rate scheduler: LR = {next(iter(svi.optim.optim_objs.values())).get_last_lr()[0]:.2e}")
+            logger.debug(
+                f"Learning rate scheduler: LR = {next(iter(svi.optim.optim_objs.values())).get_last_lr()[0]:.2e}"
+            )
         except IndexError:
             logger.debug("No values being optimized")
             pass
@@ -220,9 +222,7 @@ def run_training(
                                 f"of the total test ELBO change, > "
                                 f"specified epoch_elbo_fail_fraction {epoch_elbo_fail_fraction:.2f}"
                             )
-                            raise ElboException(
-                                msg
-                            )
+                            raise ElboException(msg)
 
             # Checkpoint throughout and after final epoch.
             if (ckpt_tarball_name != "none") and (
@@ -249,9 +249,7 @@ def run_training(
                         f"Training failed because there was no improvement from the initial test loss {model.loss['test']['elbo'][0]:.2f}. "
                         f"Final test loss was {model.loss['test']['elbo'][-1]}"
                     )
-                    raise ElboException(
-                        msg
-                    )
+                    raise ElboException(msg)
                 elif (final_best_diff / initial_best_diff) > final_elbo_fail_fraction:
                     msg = (
                         f"Training failed because final test loss {model.loss['test']['elbo'][-1]:.2f} "
@@ -260,9 +258,7 @@ def run_training(
                         f"Fractional difference is {final_best_diff / initial_best_diff:.2f}, "
                         f"which is > specified final_elbo_fail_fraction {final_elbo_fail_fraction:.2f}"
                     )
-                    raise ElboException(
-                        msg
-                    )
+                    raise ElboException(msg)
 
     # Exception allows program to continue after ending inference prematurely.
     except KeyboardInterrupt:
@@ -300,9 +296,7 @@ def run_training(
                 f"exceeds best test loss ({-best_test_elbo:.4f}) by >= "
                 f"{100 * final_elbo_fail_fraction:.1f}%"
             )
-            raise ElboException(
-                msg
-            )
+            raise ElboException(msg)
 
     # Free up all the GPU memory we can once training is complete.
     torch.cuda.empty_cache()

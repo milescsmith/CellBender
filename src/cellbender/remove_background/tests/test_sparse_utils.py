@@ -23,7 +23,6 @@ def test_todense_fill(val):
     mat = np.array([[0, 0, 0, 0], [1, 0, 0, 0], [0, 1, 2, 0], [1, 2, 3, 4]], dtype=float)
     coo = sp.coo_matrix(mat)
 
-
     dense = todense_fill(coo=coo, fill_value=val)
     brute_force = mat.copy()
     brute_force[brute_force == 0] = val
@@ -116,9 +115,6 @@ def test_overwrite_matrix_with_columns_from_another(mat1: sp.csc_matrix, mat2: s
     out = overwrite_matrix_with_columns_from_another(mat1=mat1, mat2=mat2, column_inds=col_inds)
     excluded_col_inds = [i for i in range(mat1.shape[1]) if i not in col_inds]
 
-
-
-
     # excluded columns should be replaced with new values
     assert sparse_matrix_equal(out[:, excluded_col_inds], mat2[:, excluded_col_inds])
 
@@ -139,8 +135,6 @@ def test_csr_set_rows_to_zero(mat: sp.csr_matrix, row_inds: np.ndarray):
 
     out = csr_set_rows_to_zero(csr=mat, row_inds=row_inds)
     other_row_inds = [i for i in range(mat.shape[0]) if i not in row_inds]
-
-
 
     # other rows should be left alone
     assert sparse_matrix_equal(out[other_row_inds, :], mat[other_row_inds, :])

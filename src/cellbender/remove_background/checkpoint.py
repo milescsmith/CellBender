@@ -120,7 +120,13 @@ def save_checkpoint(
             torch.save(scheduler, filebase + "_optim.torch")
             scheduler.save(filebase + "_optim.pyro")  # use PyroOptim method
             pyro.get_param_store().save(filebase + "_params.pyro")
-            file_list = [*file_list, filebase + "_model.torch", filebase + "_optim.torch", filebase + "_optim.pyro", filebase + "_params.pyro"]
+            file_list = [
+                *file_list,
+                filebase + "_model.torch",
+                filebase + "_optim.torch",
+                filebase + "_optim.pyro",
+                filebase + "_params.pyro",
+            ]
 
             if train_loader is not None:
                 # train_loader_file = save_dataloader_state(filebase=filebase,

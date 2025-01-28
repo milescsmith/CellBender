@@ -51,7 +51,6 @@ def test_one_cycle_scheduler(dropped_minibatch, cuda):
         use_cuda=cuda,
     )
 
-
     # Set up optimizer.
     scheduler = get_optimizer(
         n_batches=len(train_loader),
@@ -77,7 +76,6 @@ def test_one_cycle_scheduler(dropped_minibatch, cuda):
     for _ in range(epochs):
         train_epoch(svi=svi, train_loader=train_loader)
         lr.append(next(iter(svi.optim.optim_objs.values())).get_last_lr()[0])
-
 
     # Ensure learning rates are numerically correct
     # scheduler args include 'max_lr': learning_rate * 10

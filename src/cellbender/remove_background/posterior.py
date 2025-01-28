@@ -97,9 +97,7 @@ def load_or_compute_posterior_and_save(
                     f'"{args.posterior_regularization}", which is not '
                     f'allowed. Use ["PRq", "PRmu", "PRmu_gene"]'
                 )
-                raise ValueError(
-                    msg
-                )
+                raise ValueError(msg)
 
         else:
             # Delete a pre-existing posterior regularization in case an old one was saved.
@@ -541,7 +539,8 @@ class Posterior:
                 dict(
                     zip(
                         m_i[nonzero_offset_inds.detach().cpu()].tolist(),
-                        nonzero_noise_count_offsets.detach().cpu().tolist(), strict=False,
+                        nonzero_noise_count_offsets.detach().cpu().tolist(),
+                        strict=False,
                     )
                 )
             )
@@ -1092,9 +1091,7 @@ class PRq(PosteriorRegularization):
                     log_mu_plus_alpha_sigma_B=log_target_M[(i * chunk_size) : ((i + 1) * chunk_size)],
                 ),
                 target_outcome=torch.zeros(noise_count_BC.shape[0]).to(device),
-                init_range=(
-                    torch.tensor([-100.0, 100.0]).to(device).unsqueeze(0).expand((noise_count_BC.shape[0], 2))
-                ),
+                init_range=(torch.tensor([-100.0, 100.0]).to(device).unsqueeze(0).expand((noise_count_BC.shape[0], 2))),
                 target_tolerance=target_tolerance,
                 max_iterations=100,
             )
@@ -1494,14 +1491,10 @@ class IndexConverter:
         """
         if not ((cell_inds >= 0) & (cell_inds < self.total_n_cells)).all():
             msg = f"Requested cell_inds out of range: {cell_inds[(cell_inds < 0) | (cell_inds >= self.total_n_cells)]}"
-            raise ValueError(
-                msg
-            )
+            raise ValueError(msg)
         if not ((gene_inds >= 0) & (gene_inds < self.total_n_genes)).all():
             msg = f"Requested gene_inds out of range: {gene_inds[(gene_inds < 0) | (gene_inds >= self.total_n_genes)]}"
-            raise ValueError(
-                msg
-            )
+            raise ValueError(msg)
         if type(cell_inds) == np.ndarray:
             return cell_inds.astype(np.uint64) * self.total_n_genes + gene_inds.astype(np.uint64)
         elif type(cell_inds) == torch.Tensor:
@@ -1519,9 +1512,7 @@ class IndexConverter:
                 f"Requested m_inds out of range: "
                 f"{m_inds[(m_inds < 0) | (m_inds >= self.total_n_cells * self.total_n_genes)]}"
             )
-            raise ValueError(
-                msg
-            )
+            raise ValueError(msg)
         return np.divmod(m_inds, self.total_n_genes)
 
 

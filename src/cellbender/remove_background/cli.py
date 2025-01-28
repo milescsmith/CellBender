@@ -84,9 +84,7 @@ class CLI(AbstractCLI):
         # Warn the user in case the CUDA flag was forgotten by mistake.
         elif torch.cuda.is_available():
             sys.stdout.write(
-                "Warning: CUDA is available, but will not be "
-                "used.  Use the flag --cuda for "
-                "significant speed-ups.\n\n"
+                "Warning: CUDA is available, but will not be used.  Use the flag --cuda for significant speed-ups.\n\n"
             )
             sys.stdout.flush()  # Write immediately
 

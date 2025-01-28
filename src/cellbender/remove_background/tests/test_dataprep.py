@@ -79,7 +79,6 @@ def test_dataloader_sorting(simulated_dataset, cuda):
         barcodes = np.concatenate(barcodes).astype(np.uint32)
         genes = np.concatenate(genes).astype(np.uint32)  # uint16 is too small!
 
-
         # Put the counts into a sparse csc_matrix.
         out.append(sp.csc_matrix((counts, (barcodes, genes)), shape=d["matrix"].shape))
 

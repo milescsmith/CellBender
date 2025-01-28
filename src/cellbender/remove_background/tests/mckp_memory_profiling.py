@@ -93,8 +93,10 @@ def get_noise_targets(posterior, fpr=0.01):
         device="cpu",
         per_gene=True,
     )
+
     def noise_target_fun(x):
         return noise_target_fun_per_cell(x) * len(cell_inds)
+
     noise_targets = noise_target_fun(fpr).detach().cpu().numpy()
     return noise_targets
 

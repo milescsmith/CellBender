@@ -97,7 +97,6 @@ def test_PRq(log_prob_coo, alpha, n_chunks, cuda):
             warnings.filterwarnings("ignore", message="divide by zero encountered in log")
             np.testing.assert_almost_equal(target_dict[m], np.log(truth_means_after_regularization[m]))
 
-
     regularized_coo = PRq.regularize(
         noise_count_posterior_coo=log_prob_coo["coo"],
         noise_offsets=log_prob_coo["offsets"],
@@ -275,7 +274,6 @@ def test_compute_mean_target_removal_as_function(log_prob_coo, fpr, per_gene, cu
     noise_offsets = log_prob_coo["offsets"]
     device = "cuda" if cuda else "cpu"
 
-
     index_converter = IndexConverter(total_n_cells=log_prob_coo["coo"].shape[0], total_n_genes=1)
 
     count_matrix = sp.csr_matrix(
@@ -336,7 +334,8 @@ def test_save_and_load(tmpdir_factory, blank_noise_offsets, m):
         noise_offsets = dict(
             zip(
                 np.random.randint(low=0, high=(m - 1), size=10, dtype=np.uint64),
-                np.random.randint(low=1, high=5, size=10), strict=False,
+                np.random.randint(low=1, high=5, size=10),
+                strict=False,
             )
         )
     kwargs = {"a": "b", "c": 1}

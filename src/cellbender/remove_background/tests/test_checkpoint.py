@@ -260,7 +260,6 @@ def test_save_and_load_pyro_checkpoint(tmpdir_factory, batch_size_n):
     svi = pyro.infer.SVI(initial_model.model, initial_model.guide, scheduler, loss=pyro.infer.Trace_ELBO())
     w1 = _get_params(initial_model.encoder)
 
-
     # train in two parts: part 1
     initial_model.loss.extend(train_pyro(n_epochs=epochs, data_loader=train_loader, svi=svi))
 
@@ -298,7 +297,6 @@ def test_save_and_load_pyro_checkpoint(tmpdir_factory, batch_size_n):
     guide_trace_ckpt = pyro.poutine.trace(svi_ckpt.guide).get_trace(x=dataset)
     model_ckpt.loss.extend(train_pyro(n_epochs=epochs2, data_loader=train_loader, svi=svi_ckpt))
 
-
     # one-shot training straight through
     model_one_shot = PyroModel(dim=dim)  # resets random state
     scheduler = optim.ClippedAdam({"lr": lr, "clip_norm": 10.0})
@@ -312,8 +310,6 @@ def test_save_and_load_pyro_checkpoint(tmpdir_factory, batch_size_n):
     assert str(rng_one_shot) == str(rng_ckpt), (
         "Random states of the checkpointed and non-checkpointed versions at the start of training round 2 do not match."
     )
-
-
 
     # training should be doing something to the initial weight matrix
     assert (w1[0] != _get_params(model_one_shot.encoder)[0]).sum().item() > 0, (
@@ -399,7 +395,6 @@ def test_save_and_load_cellbender_checkpoint(tmpdir_factory, cuda, scheduler):
     initial_model, scheduler, _, _ = run_inference(dataset_obj=dataset_obj, args=args)
     w1 = _get_params(initial_model.encoder["z"])
 
-
     # train in two parts: part 1
     pyro.clear_param_store()
     create_random_state_blank_slate(0)
@@ -440,7 +435,6 @@ def test_save_and_load_cellbender_checkpoint(tmpdir_factory, cuda, scheduler):
     args.input_checkpoint_tarball = str(filebase) + ".tar.gz"
     model_ckpt, scheduler, _, _ = run_inference(dataset_obj=dataset_obj, args=args, output_checkpoint_tarball="none")
 
-
     _check_all_close(_get_params(model_ckpt.encoder["z"]), _get_params(initial_model.encoder["z"]))
 
     # and continue training
@@ -448,7 +442,6 @@ def test_save_and_load_cellbender_checkpoint(tmpdir_factory, cuda, scheduler):
     pyro.clear_param_store()
     args.epochs = epochs + epochs2
     model_ckpt, scheduler, _, _ = run_inference(dataset_obj=dataset_obj, args=args, output_checkpoint_tarball="none")
-
 
     # clean up the temp directory to remove checkpoint before running the one-shot
     shutil.rmtree(str(filedir))
@@ -461,8 +454,6 @@ def test_save_and_load_cellbender_checkpoint(tmpdir_factory, cuda, scheduler):
     model_one_shot, scheduler, _, _ = run_inference(
         dataset_obj=dataset_obj, args=args, output_checkpoint_tarball="none"
     )
-
-
 
     # training should be doing something to the initial weight matrix
     assert (w1[0] != _get_params(model_one_shot.encoder["z"])[0]).sum().item() > 0, (

@@ -132,7 +132,8 @@ def cromshell_submit(
             "-j",
             dependencies_zip,
             " ".join([os.path.join(dependencies_dir, os.path.basename(f)) for f in dependencies]),
-        ], check=False
+        ],
+        check=False,
     )
 
     # move WDL to tmpdir

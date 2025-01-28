@@ -90,7 +90,9 @@ class EncodeZ(FullyConnectedNetwork):
 
     """
 
-    def __init__(self, input_dim: int, hidden_dims: list[int], output_dim: int, input_transform: str | None = None, **kwargs):
+    def __init__(
+        self, input_dim: int, hidden_dims: list[int], output_dim: int, input_transform: str | None = None, **kwargs
+    ):
         assert len(hidden_dims) > 0, "EncodeZ needs to have at least one hidden layer"
         super().__init__(
             input_dim=input_dim,
@@ -372,6 +374,4 @@ def transform_input(x: torch.Tensor, transform: str, eps: float = 1e-5) -> torch
 
     else:
         msg = "Specified an input transform that is not supported.  Choose from 'log' or 'normalize'."
-        raise NotImplementedError(
-            msg
-        )
+        raise NotImplementedError(msg)

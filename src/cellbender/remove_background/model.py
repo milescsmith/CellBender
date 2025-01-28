@@ -520,9 +520,7 @@ class RemoveBackgroundPyroModel(nn.Module):
             # Encode the latent variables from the input gene expression counts.
             if self.include_empties:
                 # Sample d_empty, which doesn't depend on y.
-                pyro.sample(
-                    "d_empty", dist.LogNormal(loc=d_empty_loc, scale=d_empty_scale).expand_by([x.size(0)])
-                )
+                pyro.sample("d_empty", dist.LogNormal(loc=d_empty_loc, scale=d_empty_scale).expand_by([x.size(0)]))
 
                 enc = self.encoder(x=x, chi_ambient=chi_ambient.detach(), cell_prior_log=self.d_cell_loc_prior)
 
